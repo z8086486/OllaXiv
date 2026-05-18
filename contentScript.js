@@ -11,6 +11,7 @@
   let logClearedAt = 0;
   let chatBusy = false;
   let currentLanguage = "ko";
+  let isPageSuspending = false;
 
   const refs = {};
   const UI = {
@@ -251,6 +252,7 @@
   });
 
   window.addEventListener("pageshow", (event) => {
+    isPageSuspending = false;
     if (!event.persisted || !paper?.id) {
       return;
     }
@@ -258,6 +260,14 @@
   });
 
   window.addEventListener("pagehide", () => {
+    isPageSuspending = true;
+    if (port) {
+      try {
+        port.disconnect();
+      } catch (_error) {
+        // The port may already be closed while Chrome is moving the page to bfcache.
+      }
+    }
     port = null;
   });
 
@@ -489,6 +499,9 @@
     port.onDisconnect.addListener(() => {
       const disconnectError = chrome.runtime.lastError;
       port = null;
+      if (isPageSuspending) {
+        return;
+      }
       if (isBusy) {
         setBusy(false);
         setStatus(disconnectError?.message?.includes("back/forward cache")
