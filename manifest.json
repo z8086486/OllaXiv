@@ -1,0 +1,68 @@
+{
+  "manifest_version": 3,
+  "name": "Ollarxiv",
+  "version": "0.1.0",
+  "description": "Summarize and discuss arXiv papers with a local or remote Ollama model.",
+  "icons": {
+    "16": "assets/icon-16.png",
+    "32": "assets/icon-32.png",
+    "48": "assets/icon-48.png",
+    "128": "assets/icon-128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Ollarxiv",
+    "default_icon": {
+      "16": "assets/icon-16.png",
+      "32": "assets/icon-32.png",
+      "48": "assets/icon-48.png",
+      "128": "assets/icon-128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://arxiv.org/*",
+    "https://ar5iv.labs.arxiv.org/*",
+    "http://127.0.0.1:11434/*",
+    "http://localhost:11434/*",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://arxiv.org/abs/*",
+        "https://arxiv.org/pdf/*"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "js": [
+        "contentScript.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src http: https:;"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/OllaXiv.png",
+        "assets/OllaXiv-square.png",
+        "assets/icon-128.png"
+      ],
+      "matches": [
+        "https://arxiv.org/*"
+      ]
+    }
+  ]
+}

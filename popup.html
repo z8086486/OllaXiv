@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ollarxiv</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="header">
+        <img class="brand-icon" src="assets/icon-128.png" alt="" aria-hidden="true">
+        <div>
+          <h1>Ollarxiv</h1>
+          <p id="paperMeta" class="paper-meta">현재 탭을 확인하는 중...</p>
+        </div>
+      </header>
+
+      <section class="panel-toggle-section" aria-label="페이지 UI 표시 설정">
+        <label class="toggle-row">
+          <span>
+            <strong>페이지 UI 표시</strong>
+            <small>arXiv 논문 페이지에 요약 패널을 표시합니다.</small>
+          </span>
+          <input id="pagePanelEnabled" type="checkbox" role="switch">
+        </label>
+      </section>
+
+      <section class="controls" aria-label="요약 설정">
+        <label class="field server-field">
+          <span>Ollama 주소</span>
+          <input id="baseInput" type="url" placeholder="http://localhost:11434" autocomplete="off">
+        </label>
+        <button id="saveBase" class="secondary" type="button">저장</button>
+        <button id="resetBase" class="secondary" type="button">로컬</button>
+        <label class="field">
+          <span>Ollama 모델</span>
+          <select id="modelSelect">
+            <option value="">모델 불러오는 중...</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>요약 모드</span>
+          <select id="modeSelect">
+            <option value="fast">빠름</option>
+            <option value="standard" selected>표준</option>
+            <option value="detailed">자세히</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>사용 언어</span>
+          <select id="languageSelect">
+            <option value="ko" selected>한국어</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+        <button id="refreshModels" class="secondary" type="button">새로고침</button>
+      </section>
+
+      <section class="actions" aria-label="요약 실행">
+        <button id="summarizeButton" class="primary popup-hidden-action" type="button">논문 요약</button>
+        <button id="stopButton" class="secondary" type="button" disabled>작업 중단</button>
+      </section>
+
+      <div class="progress" aria-hidden="true">
+        <div id="progressBar"></div>
+      </div>
+
+      <p id="status" class="status" role="status">Ollama가 실행 중이어야 합니다.</p>
+
+      <section class="process" aria-label="현재 진행 단계">
+        <span id="phase">대기</span>
+        <span id="streamLabel">모델 응답 대기 중</span>
+      </section>
+
+      <section class="stream-grid" aria-label="실시간 모델 출력">
+        <div class="stream-box">
+          <h2>실시간 출력</h2>
+          <pre id="streamOutput">요약을 시작하면 모델 출력이 스트리밍됩니다.</pre>
+        </div>
+        <div class="stream-box">
+          <h2>모델 thinking</h2>
+          <pre id="streamThinking">thinking 필드를 보내는 모델에서만 표시됩니다.</pre>
+        </div>
+      </section>
+
+      <section class="log-section" aria-label="진행 로그">
+        <div class="log-header">
+          <h2>진행 로그</h2>
+          <div class="log-actions">
+            <button id="copyLog" class="secondary" type="button">복사</button>
+            <button id="clearLog" class="secondary" type="button">지우기</button>
+          </div>
+        </div>
+        <pre id="processLog">아직 기록된 로그가 없습니다.</pre>
+      </section>
+
+      <div id="originHelp" class="origin-help" hidden>
+        <strong>Ollama HTTP 403 해결</strong>
+        <p>터미널에서 아래 명령을 실행한 뒤 Ollama를 완전히 종료하고 다시 실행하세요.</p>
+        <code>launchctl setenv OLLAMA_ORIGINS "chrome-extension://*"</code>
+        <p>터미널에서 직접 Ollama를 실행한다면 아래 명령으로 실행할 수 있습니다.</p>
+        <code>OLLAMA_ORIGINS="chrome-extension://*" ollama serve</code>
+      </div>
+
+      <section class="storage-section" aria-label="로컬 저장 관리">
+        <div class="storage-header">
+          <h2>로컬 저장</h2>
+          <button id="refreshStorage" class="secondary" type="button">새로고침</button>
+        </div>
+        <div id="storageSummary" class="storage-summary">저장 내용을 확인하는 중...</div>
+        <div id="storageDetails" class="storage-details">저장된 항목을 확인하는 중...</div>
+        <div class="storage-actions">
+          <button id="clearStoredLogs" class="secondary" type="button">로그 삭제</button>
+          <button id="clearSourceCache" class="secondary" type="button">전문 캐시 삭제</button>
+          <button id="clearSummaryCache" class="secondary" type="button">요약 캐시 삭제</button>
+          <button id="clearAllStorage" class="secondary danger" type="button">전체 삭제</button>
+        </div>
+      </section>
+
+      <section class="output view-only" aria-label="요약 결과">
+        <div id="summaryOutput" class="markdown-output">요약 결과가 여기에 표시됩니다.</div>
+      </section>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
