@@ -39,7 +39,7 @@ OllaXiv는 arXiv 논문을 Ollama로 읽기 위한 Chrome 확장 프로그램입
 
 Chrome Web Store에서 OllaXiv를 설치합니다.
 
-[Chrome Web Store - OllaXiv (not yet)](https://chromewebstore.google.com/detail/hjaaenpglimkmieebbbhlaiaolfdpgle?utm_source=item-share-cb)
+[Chrome Web Store - OllaXiv](https://chromewebstore.google.com/detail/hjaaenpglimkmieebbbhlaiaolfdpgle?utm_source=item-share-cb)
 
 ### 방법 2. 이 리포지토리에서 설치
 
