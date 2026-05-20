@@ -39,7 +39,7 @@ The official mascot, logo, and icon files are included in `assets/`.
 
 Install OllaXiv from the Chrome Web Store:
 
-[Chrome Web Store - OllaXiv (not yet)](https://chromewebstore.google.com/detail/hjaaenpglimkmieebbbhlaiaolfdpgle?utm_source=item-share-cb)
+[Chrome Web Store - OllaXiv](https://chromewebstore.google.com/detail/hjaaenpglimkmieebbbhlaiaolfdpgle?utm_source=item-share-cb)
 
 ### Option 2. Install From This Repository
 
